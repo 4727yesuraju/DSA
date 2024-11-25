@@ -50,9 +50,68 @@ class Array{
         }
         return res;
     }
+
+    public static void reverse(int[] nums){
+        int start = 0, end = nums.length-1;
+        while(start < end){
+            nums[start] +=nums[end];
+            nums[end] = nums[start] - nums[end];
+            nums[start++]-=nums[end--];
+        }
+    }
+
+    public static int findMin(int[] arr){
+        if(arr==null || arr.length==0) throw new IllegalArgumentException("invalid input");
+        int min = arr[0];
+        for(int i=0;i<arr.length;i++) if(arr[i]<min) min = arr[i];
+        return min;
+    }
+
+    public static int findSecondMax(int[] arr){
+        int max = Integer.MIN_VALUE;
+        int secondMax = Integer.MIN_VALUE;
+        for(int i=0;i<arr.length;i++){
+            if(arr[i]>max){
+                secondMax = max;
+                max = arr[i];
+            }else if(arr[i]>secondMax && arr[i]!=max) secondMax = arr[i];
+        }
+        return secondMax;
+    }
+
+    public static void moveZerosToRight(int[] arr){
+        int j=0;
+        for(int i=0;i<arr.length;i++){
+            if(arr[i]!=0 && arr[j]==0){
+                  arr[i]+=arr[j];
+                  arr[j]= arr[i]-arr[j];
+                  arr[i]-=arr[j];
+            }
+            if(arr[j]!=0) j++;
+        }
+    }
+
+    static int sum(int[] nums){ 
+        int sum= 0;
+        for(int num:nums) sum+=num;
+        return sum;
+    }
+    public static int findMissingNumber(int[] arr){
+           int n = arr.length+1;
+           int nTermsSum = n*(n+1)/2;
+           return nTermsSum - sum(arr);
+    }
+
+    public static boolean isPalindrom(String word){
+        char[] charArray = word.toCharArray();
+        int start = 0,end= charArray.length-1;
+        while(start<end){
+            if(charArray[start++] != charArray[end--]) return false;
+        }
+        return true;
+    }
     public static void main(String args[]){
-        //  Array array = new Array();
-        //  array.arrayDemo();
-        printArray(removeEven(new int[]{2,4,6,1}));
+        System.out.println(isPalindrom("yesu"));
+        System.out.println(isPalindrom("ada"));
     }
 }
