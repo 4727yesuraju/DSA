@@ -1,5 +1,5 @@
 public class SingleLinkedList{
-    private ListNode head;
+    private ListNode head; //instance variable
 
     private static class ListNode{
         private int data;
@@ -77,15 +77,62 @@ public class SingleLinkedList{
         newNode.next = prev.next;
         prev.next = newNode;
     }
+
+    ListNode deleteFirst(){
+        if(head==null) return null;
+        ListNode temp = head;
+        head = head.next;
+        temp.next = null;
+        return temp;
+    }
+
+    ListNode deleteLast(){
+        if(head==null || head.next==null){
+            head = null;
+            return head;
+        }
+        ListNode curr = head;
+        ListNode prev = null;
+        while(curr.next!=null){
+            prev = curr;
+            curr = curr.next;
+        }
+        prev.next = null;
+        return curr;
+    }
+
+    void delete(int pos){
+        if(pos==1){
+            head = head.next;
+        }else{
+            ListNode prev = head;
+            int count = 1;
+            while(count < pos-1){
+                prev = prev.next;
+                count++;
+            }
+            prev.next = prev.next.next;
+        }
+    }
+
+    boolean searchData(int data){
+        ListNode curr = head;
+        while(curr!=null){
+            if(curr.data == data) return true;
+            curr = curr.next;
+        }
+        return false;
+    }
     public static void main(String args[]){
          SingleLinkedList sll = new SingleLinkedList();
         // sll.createDemo(sll);
         sll.insertEnd(1);
         sll.insertEnd(2);
         sll.insertEnd(3);
-        sll.insertEnd(4);
-        sll.insert(10,5);
-         sll.display();
-         System.out.println(sll.length());
+        sll.display();
+        sll.delete(2);
+        sll.display();
+        System.out.print(sll.searchData(1));
+        //System.out.println(sll.length());
     }
 }
