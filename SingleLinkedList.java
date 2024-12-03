@@ -123,16 +123,135 @@ public class SingleLinkedList{
         }
         return false;
     }
+
+    ListNode reverse(){
+        ListNode prev = null,next = null, curr = head;
+        while(curr!=null){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+
+    ListNode getNthNodeFromEnd(int n){
+        if(head == null) return null;
+        if(n<=0) throw new IllegalArgumentException("Invalid value n = "+n);
+        ListNode mainPtr = head;
+        ListNode refPtr = head;
+        int count = 0;
+        while(count<n){
+            if(refPtr==null) throw new IllegalArgumentException(n+" is greated then no.of nodes in the list");
+            refPtr = refPtr.next;
+            count++;
+        }
+        while(refPtr != null){
+            refPtr = refPtr.next;
+            mainPtr = mainPtr.next;
+        }
+        return mainPtr;
+    }
+
+    void removeDuplicate(){
+        if(head == null) return ;
+        ListNode curr = head;
+        while(curr != null && curr.next != null){
+            if(curr.data == curr.next.data) curr.next = curr.next.next;
+            else curr = curr.next;
+        }
+    }
+    void insertInSortedList(int data){
+       ListNode newNode = new ListNode(data);
+       if(head == null) {
+        head = newNode;
+        return;
+       }
+       if(head.data>=data){
+          newNode.next = head;
+          head = newNode;
+          return;
+       }else{
+        ListNode curr = head;
+        ListNode temp = null;
+        while(curr!=null && curr.data<data){
+            temp = curr;
+            curr = curr.next;
+        }
+        newNode.next = curr;
+        temp.next = newNode;
+       }
+    }
+
+    void removeKey(int key){
+        if(head!=null && head.data == key){
+            head = head.next;
+            return;
+        }
+        ListNode curr = head;
+        ListNode temp = null;
+        while(curr!=null && curr.data!=key){
+            temp = curr;
+            curr = curr.next;
+        }
+        if(curr==null) return;
+        temp.next = curr.next;
+    }
+    void createLoop(){
+        ListNode first = new ListNode(1);
+        ListNode second = new ListNode(1);
+        ListNode third = new ListNode(1);
+        ListNode fourth = new ListNode(1);
+        ListNode fifth = new ListNode(1);
+
+        head = first;
+        first.next = second;
+        second.next = third;
+        third.next = fourth;
+        fourth.next = fifth;
+
+        fifth.next = second;
+    }
+    boolean containsLoop(){
+        ListNode slowPtr = head;
+        ListNode fastPtr = head;
+        while(fastPtr != null && fastPtr.next!=null){
+            fastPtr = fastPtr.next.next;
+            slowPtr = slowPtr.next;
+            if(fastPtr == slowPtr){
+                
+                return true;
+            }
+        }
+        return false;
+     }
+
     public static void main(String args[]){
          SingleLinkedList sll = new SingleLinkedList();
+         sll.createLoop();
+         if(sll.containsLoop()) System.out.println("contains loop");
+         else System.out.println("no loop");
+        // sll.insertEnd(1);
+        // sll.insertEnd(2);
+        // sll.insertEnd(2);
+        // sll.insertEnd(3);
+        // sll.insertEnd(3);
+        // sll.display();
+        // sll.removeDuplicate();
+        // sll.display();
+        // sll.insertInSortedList(5);
+        // sll.insertInSortedList(0);
+        // sll.display();
+        // sll.removeKey(5);
+        // sll.display();
         // sll.createDemo(sll);
-        sll.insertEnd(1);
-        sll.insertEnd(2);
-        sll.insertEnd(3);
-        sll.display();
-        sll.delete(2);
-        sll.display();
-        System.out.print(sll.searchData(1));
+        //System.out.println(sll.getNthNodeFromEnd(1).data);
+        // sll.delete(2);
+        // sll.display();
+        // sll.head = sll.reverse();
+        // sll.display();
+
+        //System.out.print(sll.searchData(1));
         //System.out.println(sll.length());
     }
 }
