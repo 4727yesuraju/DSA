@@ -87,6 +87,74 @@ class LinkedList{
        prev.next = newNode;
 
     }
+
+    deleteFirst(){
+        if(this.head === null){
+            console.log("List is Empty :(")
+        }else{
+            let temp = this.head;
+            this.head = this.head.next;
+            temp.next = null;
+            --this.length;
+            return temp.data;
+        }
+    }
+
+    deleteLast(){
+        if(!this.head){
+            console.log("List is Empty :(")
+        }else if(!this.head.next){
+           this.head = this.head.next;
+        }else{
+            let [curr,prev] = [this.head.next,this.head];
+            while(curr.next){
+                prev = curr;
+                curr = curr.next
+            }
+            prev.next = null;
+            --this.length;
+            return curr.data;
+        }
+    }
+
+    deleteAt(pos){
+        if(pos<0 || pos>this.length+1) {
+            console.log(`operation fails for Invalid positin ${pos}.\nNote : 0 to ${this.length} positions available`);
+            return;
+        } 
+        else if(!this.head){
+            console.log("List is Empty :(")
+        }else if(pos ===1){
+            this.deleteFirst();
+        }else{
+            let [prev,count] = [this.head,1];
+            while(count < pos-1){
+                count++;
+                prev = prev.next;
+            }
+            prev.next = prev.next.next;
+            --this.length;
+        }
+    }
+
+    find(key){
+        let curr = this.head;
+        while(curr){
+            if(curr.data === key) return true;
+            curr =  curr.next;
+        }
+        return false;
+    }
+    reverse(){
+        let [curr,prev,next] = [this.head,null,null];
+        while(curr){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
 }
 
 const linkedList = new LinkedList();
@@ -99,6 +167,14 @@ linkedList.insertLast(10)
 linkedList.printList(linkedList.head);
 linkedList.insertAt(100,25)  //data,pos
 linkedList.insertAt(9,1)
+console.log(linkedList.deleteFirst());
+console.log(linkedList.deleteLast());
 linkedList.printList(linkedList.head);
+linkedList.deleteAt(60)
+linkedList.printList(linkedList.head);
+console.log(linkedList.find(20))
+linkedList.printList(linkedList.reverse());
+console.log(linkedList)
+
 
 
