@@ -25,8 +25,11 @@ class LinkedList{
 
     printList(head){
         let str = !head ? `[${this.length}] ` : "";
-        if(!head) console.log("List is Empty :(");
-        let curr = head || this.head;
+        let curr = head || this.head
+        if(!curr) {
+            console.log("List is Empty :(");
+            return -1;
+        };
         let size = 0;
         while(curr){
             str += curr.data+" --> ";
@@ -155,26 +158,210 @@ class LinkedList{
         }
         return prev;
     }
+
+    nthNodeFromLast(n){
+        let [mainPtr,refPtr,count] = [this.head,this.head,0];
+        while(count<n){
+            refPtr = refPtr.next;
+            count++;
+        }
+        while(refPtr){
+            refPtr = refPtr.next;
+            mainPtr = mainPtr.next;
+        }
+        return mainPtr.data;
+    }
+
+    removeDuplicates(head){
+        let curr = head || this.head;
+        while(curr && curr.next){
+            if(curr.data === curr.next.data){
+                curr.next = curr.next.next
+            }else curr = curr.next;
+        }
+    }
+
+    insertInSortedList(data){
+       let newNode = new Node(data);
+       let curr = this.head;
+       let temp = null;
+
+       while(curr && curr.data < newNode.data){
+          temp = curr;
+          curr = curr.next;
+       }
+       newNode.next = curr;
+       temp.next = newNode;
+       return ++this.length;
+    }
+
+    removeKey(key){
+        if(!this.head) return null;
+        let curr = this.head;
+        let temp = null;
+        if(curr && curr.data === key){
+            head = curr.next;
+            return ;
+        }
+        while(curr && curr.data!=key){
+            temp = curr;
+            curr = curr.next;
+        }
+        if(!curr) return null;
+        temp.next = curr.next;
+    }
+
+    createLoop(){
+        let first = new Node(1);
+        let second = new Node(2);
+        let third = new Node(3);
+        let forth = new Node(4);
+
+        this.head = first;
+        first.next = second;
+        second.next = third;
+        third.next = forth;
+        forth.next = second;
+    }
+
+    continesLoop(getStartingNode,removeLoop){
+        let fastPtr = this.head;
+        let slowPtr = this.head;
+        while(fastPtr && fastPtr.next){
+           fastPtr = fastPtr.next.next;
+           slowPtr = slowPtr.next;
+           if(fastPtr === slowPtr) {
+             if(getStartingNode) return this.getStartingNode(slowPtr);
+             if(removeLoop) return this.removeLoop(slowPtr);
+             return true;
+           } 
+        }
+        return false;
+    }
+
+    getStartingNode(slowPtr){
+        let temp = this.head;
+        while(temp!==slowPtr){
+            temp = temp.next;
+            slowPtr = slowPtr.next;
+        }
+        return temp;
+    }
+
+    removeLoop(slowPtr){
+        let temp = this.head;
+        while(temp.next != slowPtr.next){
+            temp = temp.next;
+            slowPtr = slowPtr.next;
+        }
+        slowPtr.next = null;
+        return true;
+    }
+
+    static merge(l1,l2){
+        let dummy = new Node(0);
+        let temp = dummy;
+        while(l1 && l2){
+            if(l1.data<l2.data){
+                temp.next = l1;
+                l1 = l1.next;
+            }else{
+                temp.next = l2;
+                l2 = l2.next;
+            }
+            temp = temp.next;
+        }
+
+        if(l1){
+            temp.next = l1
+        }else{
+            temp.next = l2;
+        }
+        return dummy.next;
+    }
+
+    static add(a,b){
+       let dummy = new Node(0);
+       let tail = dummy;
+       let carry = 0;
+       while(a || b){
+          let x = a ? a.data : 0;
+          let y = b ? b.data : 0;
+          let sum = carry + x + y;
+          carry = Math.floor(sum / 10);
+          tail.next = new Node(sum%10);
+          tail = tail.next;
+          if(a) a = a.next;
+          if(b) b = b.next;
+       }
+       if(carry>0){
+         tail.next = new Node(carry)
+       }
+       return dummy.next;
+    }
 }
 
-const linkedList = new LinkedList();
+// const linkedList = new LinkedList();
 
-linkedList.creatingAList()
+// linkedList.createLoop();
+// console.log(linkedList.continesLoop(0,true));
 
-linkedList.insertFirst(0)
-linkedList.insertLast(20)
-linkedList.insertLast(10)
-linkedList.printList(linkedList.head);
-linkedList.insertAt(100,25)  //data,pos
-linkedList.insertAt(9,1)
-console.log(linkedList.deleteFirst());
-console.log(linkedList.deleteLast());
-linkedList.printList(linkedList.head);
-linkedList.deleteAt(60)
-linkedList.printList(linkedList.head);
-console.log(linkedList.find(20))
-linkedList.printList(linkedList.reverse());
-console.log(linkedList)
+// linkedList.printList();
+
+const l1 = new LinkedList();
+const l2 = new LinkedList();
+l1.insertLast(1);
+l1.insertLast(3);
+l1.insertLast(5);
+l2.insertLast(2);
+l2.insertLast(4);
+l2.insertLast(6);
+
+// l1.printList(LinkedList.merge(l1.head,l2.head));
+
+l1.printList();
+l2.printList();
+
+console.log(LinkedList.add(l1.head, l2.head))
+
+l1.printList(LinkedList.add(l1.head, l2.head))
 
 
+// linkedList.creatingAList()
 
+// linkedList.insertFirst(0)
+// linkedList.insertLast(20)
+// linkedList.insertLast(10)
+// linkedList.printList(linkedList.head);
+// linkedList.insertAt(100,25)  //data,pos
+// linkedList.insertAt(9,1)
+// console.log(linkedList.deleteFirst());
+// console.log(linkedList.deleteLast());
+// linkedList.printList(linkedList.head);
+// linkedList.deleteAt(60)
+// linkedList.printList(linkedList.head);
+// console.log(linkedList.find(20))
+// linkedList.head = linkedList.reverse();
+// linkedList.printList(linkedList.head)
+// console.log(linkedList.nthNodeFromLast(3))
+
+// linkedList.insertLast(1);
+// linkedList.insertLast(1);
+// linkedList.insertLast(4);
+// linkedList.insertLast(10);
+// linkedList.insertLast(10);
+
+// linkedList.printList()
+
+// linkedList.removeDuplicates();
+
+// linkedList.printList(); 
+
+// linkedList.insertInSortedList(2);
+// linkedList.insertInSortedList(6);
+// linkedList.insertInSortedList(7);
+
+// linkedList.removeKey(2)
+// linkedList.removeKey(7)
+
+// linkedList.printList()
