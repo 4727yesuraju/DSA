@@ -45,7 +45,7 @@ class Queue{
         let temp = this.front;
         this.front = this.front.next;
         if(this.front === null){
-            this.reat = null;
+            this.rear = null;
         }
         temp.next = null;
         --this.length;
@@ -76,3 +76,17 @@ console.log(queue.first());
 console.log(queue.last());
 queue.deQueue()
 queue.display()
+
+console.log(generateBinary(10))
+
+function generateBinary(n){
+    const queue = new Queue();
+    queue.enQueue("1");
+    let result =[];
+    for(let i=0;i<n;i++){
+        result[i] = queue.deQueue();
+        queue.enQueue(result[i] + "0");
+        queue.enQueue(result[i] + "1");
+    }
+    return result;
+}
