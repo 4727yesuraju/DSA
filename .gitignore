@@ -1,1 +1,15 @@
-.class
+# Compiled class files
+*.class
+
+# Other common ignores for Java projects
+*.jar
+*.war
+*.ear
+*.log
+*.tmp
+*.swp
+.DS_Store
+bin/
+build/
+target/
+out/
