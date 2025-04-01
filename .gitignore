@@ -13,3 +13,6 @@ bin/
 build/
 target/
 out/
+
+#images
+images/
