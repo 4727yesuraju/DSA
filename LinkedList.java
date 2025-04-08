@@ -12,7 +12,7 @@ public class LinkedList{
     void print(Node head){
         Node curr = head;
         while(curr!=null){
-            System.out.print(curr.data+"-->");
+            System.out.print(curr.data+" --> ");
             curr = curr.next;
         }
         System.out.println("null");
@@ -65,6 +65,65 @@ public class LinkedList{
         }
     }
 
+    Node deleteFirst(){
+        if(head == null) return null;
+        Node temp = head;
+        head = head.next;
+        temp.next = null;
+        return temp;
+    }
+
+    Node deleteLast(){
+        if(head == null || head.next == null){
+            head = null;
+            return null;
+        }
+        Node prev = null;
+        Node curr = head;
+        while(curr.next != null){
+            prev = curr;
+            curr = curr.next;
+        }
+        prev.next = null;
+        return curr;
+    }
+
+    void deleteAt(int pos){
+       if(pos == 1){
+          head = head.next;
+       }else{
+         Node prev = head;
+         int count = 1;
+         while(count<pos-1){
+            prev = prev.next;
+         }
+         prev.next = prev.next.next;
+       }
+    }
+
+
+    boolean search(int key){
+        Node curr = head;
+        while(curr!=null){
+            if(curr.data == key) return true;
+            curr = curr.next;
+        }
+        return false;
+    }
+
+    Node reverse(){
+        Node curr = head;
+        Node prev = null;
+        Node next = null;
+        while(curr != null){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+
     public static void main(String args[]){
         LinkedList ll = new LinkedList();
         // ll.head = new Node(1);
@@ -84,7 +143,16 @@ public class LinkedList{
         ll.insertFirst(1);
 
         ll.insertAt(3, 3);
+        // ll.print(ll.head);
+        // ll.deleteFirst();
+        // ll.print(ll.head);
+        // ll.deleteLast();
+        // ll.print(ll.head);
+        // ll.deleteAt(2);
         ll.print(ll.head);
+        System.out.println(ll.search(30));
+        // ll.reverse();
+        ll.print(ll.reverse());
 
 
     }
