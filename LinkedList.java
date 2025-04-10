@@ -196,6 +196,84 @@ public class LinkedList{
         return false;
     }
 
+    Node returnStartingNode(Node slowPtr){
+        Node temp = head;
+        while(temp!=slowPtr){
+            temp = temp.next;
+            slowPtr = slowPtr.next;
+        }
+        return temp;
+    }
+    Node getStartingNode(){
+        Node fastPtr = head;
+        Node slowPtr = head;
+        while(fastPtr != null && fastPtr.next != null){
+            fastPtr = fastPtr.next.next;
+            slowPtr = slowPtr.next;
+            if(slowPtr == fastPtr) return returnStartingNode(slowPtr);
+        }
+        return null;
+    }
+
+    void removeLoop(Node slowPtr){
+       Node temp = head;
+       while(temp.next != slowPtr.next){
+           temp = temp.next;
+           slowPtr = slowPtr.next;
+       }
+       slowPtr.next = null;
+    }
+    void removeLoop(){
+        Node fastPtr = head;
+        Node slowPtr = head;
+        while(fastPtr != null && fastPtr.next != null){
+            fastPtr = fastPtr.next.next;
+            slowPtr = slowPtr.next;
+            if(fastPtr == slowPtr) removeLoop(slowPtr);
+        }
+    }
+
+
+    Node merge(Node a,Node b){
+        Node dummy = new Node(0);
+        Node tail = dummy;
+        while(a!=null && b!=null){
+            if(a.data <= b.data){
+                tail.next = a;
+                a = a.next;
+            }else{
+                tail.next = b;
+                b = b.next;
+            }
+            tail = tail.next;
+        }
+        if(a==null){
+            tail.next = b;
+        }else{
+            tail.next = a;
+        }
+        return dummy.next;
+    }
+
+    Node addList(Node a,Node b){
+        Node dummy = new Node(0);
+        Node tail = dummy;
+        int carry = 0;
+        while(a!=null || b!=null){
+            int x = a!=null ? a.data : 0 ;
+            int y = b!=null ? b.data : 0 ;
+            int sum = carry + x + y ;
+            carry = sum /10;
+            tail.next = new Node(sum%10);
+            tail = tail.next;
+            if(a!=null) a= a.next;
+            if(b!=null) b = b.next;
+        }
+
+        if(carry > 0) tail.next = new Node(carry);
+        return dummy.next;
+    }
+
 
     public static void main(String args[]){
         LinkedList ll = new LinkedList();
@@ -236,9 +314,31 @@ public class LinkedList{
         // ll.removeKey(30);
         // ll.print(ll.head);
 
-        ll.createLoop();
+        // ll.createLoop();
         // ll.print(ll.head);
-        System.out.println(ll.containesLoop());
+        // System.out.println(ll.containesLoop());
+        // System.out.println(ll.getStartingNode().data);
+        // ll.removeLoop();
+        // System.out.println(ll.containesLoop());
+
+        LinkedList ll1 = new LinkedList();
+        ll1.insertLast(1);
+        ll1.insertLast(3);
+        ll1.insertLast(5);
+
+        LinkedList ll2 = new LinkedList();
+        ll2.insertLast(2);
+        ll2.insertLast(4);
+        ll2.insertLast(6);
+
+        // ll1.print(ll1.merge(ll1.head,ll2.head));
+        ll1.print(ll1.head);
+        ll1.print(ll2.head);
+
+
+        ll1.print(ll1.addList(ll1.head, ll2.head));
+
+
 
 
     }
