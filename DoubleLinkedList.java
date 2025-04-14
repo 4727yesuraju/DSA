@@ -1,4 +1,7 @@
 
+import java.util.NoSuchElementException;
+
+
 class DoubleLinkedList{
     Node head;
     Node tail;
@@ -66,11 +69,35 @@ class DoubleLinkedList{
         System.out.println("null");
     }
 
+    Node deleteFirst(){
+        if(isEmpty()) throw new NoSuchElementException();
+        Node temp = head;
+        if(head == tail) tail = null;
+        else head.next.prev = null;
+        head = head.next;
+        temp.next = null;
+        this.length--;
+        return temp;
+    }
+
+    Node deleteLast(){
+        if(isEmpty()) throw new NoSuchElementException();
+        Node temp = tail;
+        if(tail == head) head = null;
+        else tail.prev.next = null;
+        tail = tail.prev;
+        temp.prev = null;
+        this.length--;
+        return temp;
+    }
+
     public static void main(String[] args){
         DoubleLinkedList dl = new DoubleLinkedList();
         dl.insertLast(2);
         dl.insertLast(1);
         dl.displayForward();
+        dl.displayBackward();
+        dl.deleteLast();
         dl.displayBackward();
     }
 }
