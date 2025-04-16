@@ -1,6 +1,6 @@
 
-import java.util.Arrays;
 import java.util.EmptyStackException;
+import java.util.Stack;
 
 class StackDemo{
     Node top;
@@ -69,6 +69,26 @@ class StackDemo{
         return res;
     }
 
+    static boolean validParanthesis(String s){
+        Stack<Character> stack = new Stack<>();
+        for(char c : s.toCharArray()){
+            if(c == '(' || c == '{' || c == '[') stack.push(c);
+            else{
+                if(stack.isEmpty()) return false;
+                else{
+                    char top = stack.peek();
+                    if( c == ']' && top == '[' ||
+                        c == '}' && top == '{' || 
+                        c == ')' && top == '('
+                    )
+                    stack.pop();
+                    else return false;
+                }
+            }
+
+        }
+        return stack.isEmpty();
+    }
 
     public static void main(String args[]){
          StackDemo stack = new StackDemo();
@@ -77,6 +97,7 @@ class StackDemo{
          stack.push(3);
         //  stack.pop();
         //  stack.display();
-         System.out.println(Arrays.toString(nextGreateElement(new int[]{4,7,3,4,8,1})));
+        //  System.out.println(Arrays.toString(nextGreateElement(new int[]{4,7,3,4,8,1})));
+        System.out.println(validParanthesis("[]]"));
     }
 }
