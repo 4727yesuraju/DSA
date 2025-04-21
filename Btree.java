@@ -53,13 +53,66 @@ class Btree{
         System.out.print(root.data + " ");
         inOrder(root.right);
     }
+
+    void inOrderLoop(Node root){
+        if(root == null) return;
+        Stack<Node> stack = new Stack<>();
+        Node temp = root;
+        while(!stack.isEmpty() || temp!=null){
+            if(temp!=null){
+                stack.push(temp);
+                temp = temp.left;
+            }else{
+                temp = stack.pop();
+                System.out.print(temp.data+" ");
+                temp = temp.right;
+            }
+        }
+    }
+
+    void postOrder(Node root){
+        if(root == null) return;
+        postOrder(root.left);
+        postOrder(root.right);
+        System.out.print(root.data+ " ");
+    }
+
+    void postOrderLoop(Node root){
+       Node curr = root;
+       Stack<Node> stack = new Stack<>();
+
+       while(curr!=null || !stack.isEmpty()){
+         if(curr!=null){
+            stack.push(curr);
+            curr = curr.left;
+         }else{
+           Node temp = stack.peek().right;
+           if(temp == null){
+                temp = stack.pop();
+                System.out.print(temp.data+" ");
+                while(!stack.isEmpty() && temp == stack.peek().right){
+                    temp = stack.pop();
+                    System.out.print(temp.data+" ");
+                }
+           }else{
+                curr = temp;
+           }
+         }
+       }
+    }   
     public static void main(String args[]){
           Btree  bt = new Btree();
           bt.createBtree();
-          bt.preOrder(bt.root);
-          System.out.println();
-          bt.preOrderLoop(bt.root);
-          System.out.println();
-          bt.inOrder(bt.root);
+        //   bt.preOrder(bt.root);
+        //   System.out.println();
+        //   bt.preOrderLoop(bt.root);
+        //   System.out.println();
+        //   bt.inOrder(bt.root);
+        //   System.out.println();
+        //   bt.inOrderLoop(bt.root);
+
+        bt.postOrder(bt.root);
+        System.out.println();
+        bt.postOrderLoop(bt.root);
     }
 }
