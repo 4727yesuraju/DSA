@@ -1,4 +1,5 @@
 
+import java.util.Queue;
 import java.util.Stack;
 
 class Btree{
@@ -100,6 +101,29 @@ class Btree{
          }
        }
     }   
+
+    void levelOrder(Node root){
+        if(root == null) return;
+        Queue<Node> queue = new java.util.LinkedList<>();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            Node temp = queue.poll();
+            System.out.print(temp.data + " ");
+            if(temp.left!=null) queue.offer(temp.left);
+            if(temp.right!=null) queue.offer(temp.right);
+        
+        }
+    }
+
+    int findMax(Node root){
+        if(root == null) return Integer.MIN_VALUE;
+        int res = root.data;
+        int left = findMax(root.left);
+        int right = findMax(root.right);
+        if(left > res) res = left;
+        if(right > res) res = right;
+        return res;
+    }
     public static void main(String args[]){
           Btree  bt = new Btree();
           bt.createBtree();
@@ -111,8 +135,11 @@ class Btree{
         //   System.out.println();
         //   bt.inOrderLoop(bt.root);
 
-        bt.postOrder(bt.root);
-        System.out.println();
-        bt.postOrderLoop(bt.root);
+        // bt.postOrder(bt.root);
+        // System.out.println();
+        // bt.postOrderLoop(bt.root);
+
+        bt.levelOrder(bt.root);
+        System.out.println("\nMax value : "+bt.findMax(bt.root));
     }
 }
