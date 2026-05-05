@@ -63,15 +63,15 @@
 // If pointers cross without a mismatch → return true
 
 
-function isPalindrome(str) {
-    let left = 0, right = str.length - 1;
+// function isPalindrome(str) {
+//     let left = 0, right = str.length - 1;
 
-    while (left < right) {
-        if (str[left++] !== str[right--]) return false;
-        // left++;
-        // right--;
-    }
-    return true;
-}
+//     while (left < right) {
+//         if (str[left++] !== str[right--]) return false;
+//         // left++;
+//         // right--;
+//     }
+//     return true;
+// }
 
-console.log(isPalindrome("racecar"))
+// console.log(isPalindrome("racecar"))
